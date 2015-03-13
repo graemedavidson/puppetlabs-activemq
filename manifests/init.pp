@@ -34,7 +34,7 @@ class activemq(
   $local_install            = false,
   $overwrite_initd          = true,
   $download_url_root        = '',
-  $wrapper_java_maxmemory   = 512
+  $wrapper_java_maxmemory   = 1024
 ) {
 
   validate_re($ensure, '^running$|^stopped$')

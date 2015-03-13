@@ -38,7 +38,9 @@ class activemq::config (
 
   $server_config_real = $server_config
 
-  if $::osfamily == 'Debian' {
+  if ($::osfamily == 'Debian') and  
+    ($activemq::local_install == false) {
+    
     $available = "/etc/activemq/instances-available/${instance}"
     $path_real = "${available}/activemq.xml"
 

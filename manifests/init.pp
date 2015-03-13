@@ -25,15 +25,16 @@
 # }
 #
 class activemq(
-  $version            = 'present',
-  $package            = 'activemq',
-  $ensure             = 'running',
-  $instance           = 'activemq',
-  $webconsole         = true,
-  $server_config      = 'UNSET',
-  $local_install      = false,
-  $overwrite_initd    = true,
-  $download_url_root  = ''  
+  $version                  = 'present',
+  $package                  = 'activemq',
+  $ensure                   = 'running',
+  $instance                 = 'activemq',
+  $webconsole               = true,
+  $server_config            = 'UNSET',
+  $local_install            = false,
+  $overwrite_initd          = true,
+  $download_url_root        = '',
+  $wrapper_java_maxmemory   = 512
 ) {
 
   validate_re($ensure, '^running$|^stopped$')
@@ -67,6 +68,11 @@ class activemq(
     notify            => Class['activemq::service'],
   }
 
+  class { 'activemq::wrapper_config':
+    wrapper_java_maxmemory  => $wrapper_java_maxmemory,
+    notify                  => Class['activemq::service']
+  }
+
   class { 'activemq::config':
     instance      => $instance,
     package       => $package_real,
@@ -82,6 +88,4 @@ class activemq(
   anchor { 'activemq::end':
     require => Class['activemq::service'],
   }
-
 }
-

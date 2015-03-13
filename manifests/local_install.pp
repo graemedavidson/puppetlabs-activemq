@@ -14,10 +14,12 @@ class activemq::local_install (
   $version,
   $download_url_root,
   $install_dir        = '/opt',
-  $wrapper_cmd        = '/opt/activemq/bin/linux-x86-64/wrapper',
-  $wrapper_conf       = '/opt/activemq/bin/linux-x86-64/wrapper.conf',
+  $wrapper_dir        = '/opt/activemq/bin/',
   $pid_dir            = '/opt/activemq/data'
 ) {
+  $architecture_flag = split($architecture, '_')
+  $wrapper_cmd = "/opt/activemq/bin/linux-x86-${architecture_flag[1]}/wrapper"
+  $wrapper_conf = "/opt/activemq/bin/linux-x86-${architecture_flag[1]}/wrapper.conf"
 
   $download_url = "${download_url_root}/${version}/apache-activemq-${version}-bin.tar.gz"
   notify{"URL: ${download_url}": }
